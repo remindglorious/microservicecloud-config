@@ -6,7 +6,7 @@ spring:
 server:
     port: 8001       
     
-spring
+spring:
     profiles: dev
     application:
         name: microservicecloud-config-dept-client
@@ -84,9 +84,10 @@ info:
   build.artifactId: springcloud-config-dept-8001
   build.version: 0.0.1-SNAPSHOT
 ---
+
 server:
     port: 8001
-spring
+spring:
     profiles: test
     application:
         name: microservicecloud-config-dept-client
