@@ -73,7 +73,7 @@ mybatis:
 eureka:
   client: #客户端注册进eureka服务列表内
     service-url:
-      defaultZone: http://eureka7001.com:7001/eureka/,http://eureka7002.com:7002/eureka/,http://eureka7003.com:7003/eureka/1/eureka
+      defaultZone: http://eureka7001.com:7001/eureka/
   instance:
     instance-id: config-dept-8001
     prefer-ip-address: true            #访问路径可以显示IP地址
@@ -82,4 +82,84 @@ info:
   app.name: microservicecloud
   company.name: www.seisys.com
   build.artifactId: springcloud-config-dept-8001
+  build.version: 0.0.1-SNAPSHOT
+---
+server:
+    port: 8001
+spring
+    profiles: test
+    application:
+        name: microservicecloud-config-dept-client
+    datasource:
+        druid:
+          # JDBC配置
+          driver-class-name: com.mysql.cj.jdbc.Driver
+          url: jdbc:mysql://192.168.36.141/clouddb2?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=UTC
+          username: root
+          password: 123456
+
+          # 连接池配置
+          # 配置初始化大小、最小、最大
+          initial-size: 5
+          max-active: 100
+          min-idle: 5
+
+          # 获取连接等待超时时间
+          max-wait: 60000
+          pool-prepared-statements: true
+          validation-query: SELECT 1 FROM DUAL
+          test-on-borrow: false
+          test-on-return: false
+          test-while-idle: true
+          # 间隔多久进行一次检测，检测需要关闭的空闲连接
+          time-between-eviction-runs-millis: 60000
+          # 一个连接在连接池中最小的生存时间
+          min-evictable-idle-time-millis: 300000
+          max-pool-prepared-statement-per-connection-size: 20
+
+          # 合并多个DruidDataSource的监控数据
+          use-global-data-source-stat: false
+
+          filter:
+            # 慢SQL记录(sql语句执行时间超过某个界限就记录下来)
+            stat:
+              slow-sql-millis: 200
+              log-slow-sql: true
+
+          filters: stat, wall
+
+          # 监控配置
+          # Druid WebStatFilter配置
+          web-stat-filter:
+            enabled: true
+            url-pattern: /*
+            exclusions: /druid/*,*.gif,*.png,*.jpg,*.html,*.js,*.css,*.ico
+          # Druid StatViewServlet配置
+          stat-view-servlet:
+            enabled: true
+            url-pattern: /druid/*
+            # 登录监控界面的用户名以及密码，登录url为localhost:8080/druid
+            login-username: admin
+            login-password: admin
+            allow:
+            deny:
+
+mybatis:
+  config-location: classpath:mybatis/mybatis.cfg.xml        # mybatis配置文件所在路径
+  type-aliases-package: com.seisys.springcloud.api.entity   # 所有Entity别名类所在包
+  mapper-locations:
+    - classpath:mybatis/mapper/**/*.xml                     # mapper映射文件
+    
+eureka:
+  client: #客户端注册进eureka服务列表内
+    service-url:
+      defaultZone: http://eureka7001.com:7001/eureka/
+  instance:
+    instance-id: config-test-8001
+    prefer-ip-address: true            #访问路径可以显示IP地址
+    
+info:
+  app.name: microservicecloud
+  company.name: www.seisys.com
+  build.artifactId: springcloud-config-test-8001
   build.version: 0.0.1-SNAPSHOT
